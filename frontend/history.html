@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StellarScan — History</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="spaceCanvas"></canvas>
+<audio id="bgMusic" src="assets/audio/ambient.mp3" loop></audio>
+
+<nav>
+  <div class="brand">Stellar<span>Scan</span></div>
+  <div class="nav-links">
+    <a href="index.html">Analyze a Signal</a>
+    <a href="history.html">History</a>
+    <button id="soundToggle" title="Toggle ambient sound">🔇</button>
+  </div>
+</nav>
+
+<main class="history-main">
+  <h1>Scan History</h1>
+  <p class="lead">Every signal StellarScan has analyzed, most recent first.</p>
+
+  <div id="loadingState">Loading history...</div>
+
+  <table id="historyTable" style="display:none;">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Predicted Class</th>
+        <th>Confidence</th>
+        <th>Priority</th>
+        <th>Habitability</th>
+        <th>Anomaly</th>
+        <th>Label</th>
+      </tr>
+    </thead>
+    <tbody id="historyBody"></tbody>
+  </table>
+
+  <div id="emptyState">
+    <h3>No signals analyzed yet</h3>
+    <p>Run your first analysis from the Home page to see it appear here.</p>
+  </div>
+</main>
+
+<script src="js/starfield.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/history.js"></script>
+</body>
+</html>

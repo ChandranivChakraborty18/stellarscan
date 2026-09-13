@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StellarScan — Signals Worth a Second Look</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Full-screen animated space background, drawn by js/starfield.js -->
+<canvas id="spaceCanvas"></canvas>
+
+<!-- Ambient background music. Add your own file at assets/audio/ambient.mp3 -->
+<audio id="bgMusic" src="assets/audio/ambient.mp3" loop></audio>
+
+<nav>
+  <div class="brand">Stellar<span>Scan</span></div>
+  <div class="nav-links">
+    <a href="#discovery-section">Analyze a Signal</a>
+    <a href="history.html">History</a>
+    <button id="soundToggle" title="Toggle ambient sound">🔇</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Find worlds hidden in starlight.</h1>
+    <p>StellarScan screens thousands of stellar brightness signals, ranks which ones are worth an astronomer's limited time, and flags the ones that simply don't look like anything we've seen before.</p>
+    <div class="cta-row">
+      <button class="btn-primary" onclick="document.getElementById('discovery-section').scrollIntoView()">Analyze a Signal</button>
+      <a href="#how-it-works" class="btn-ghost">How it works</a>
+    </div>
+  </div>
+</section>
+
+<div class="hero-stats" style="max-width:980px; margin: -40px auto 0 auto; padding: 0 48px 40px 48px;">
+  <div class="stat"><b>9,564</b><span>Signals Screened</span></div>
+  <div class="stat"><b>77.4%</b><span>Classifier Accuracy</span></div>
+  <div class="stat"><b>5%</b><span>Flagged as Unusual</span></div>
+</div>
+
+<section class="section" id="how-it-works">
+  <h2>From starlight to a decision</h2>
+  <p class="section-lead">Big telescopes have limited time. This is the triage step before that — sorting signal from noise, and noise from mystery.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="mark"></div>
+      <h3>Classify</h3>
+      <p>A trained model reads ten measurements of a signal and predicts whether it's a confirmed planet, a candidate, or a false positive.</p>
+    </div>
+    <div class="step">
+      <div class="mark"></div>
+      <h3>Score</h3>
+      <p>Every result gets a plain 0–100 priority score, so nobody has to guess what "confident" means.</p>
+    </div>
+    <div class="step">
+      <div class="mark"></div>
+      <h3>Detect</h3>
+      <p>A separate model checks if the signal statistically resembles anything else we've measured — or stands apart.</p>
+    </div>
+    <div class="step">
+      <div class="mark"></div>
+      <h3>Flag</h3>
+      <p>Unusual signals are surfaced clearly, so a human decides what deserves a closer look.</p>
+    </div>
+  </div>
+</section>
+
+<section class="discovery" id="discovery-section">
+  <div class="discovery-inner">
+    <div>
+      <h2>Analyze a Signal</h2>
+      <p class="lead">Enter the measured properties of a star's brightness signal below. These are the same ten values astronomers already record for Kepler targets.</p>
+
+      <form id="predictForm">
+        <div class="field-row">
+          <div class="field"><label>Orbital Period (days)</label><input type="number" step="any" id="koi_period" value="4.2" required></div>
+          <div class="field"><label>Transit Duration (hrs)</label><input type="number" step="any" id="koi_duration" value="3.1" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Transit Depth (ppm)</label><input type="number" step="any" id="koi_depth" value="500" required></div>
+          <div class="field"><label>Planet Radius (Earth radii)</label><input type="number" step="any" id="koi_prad" value="1.5" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Equilibrium Temp (K)</label><input type="number" step="any" id="koi_teq" value="850" required></div>
+          <div class="field"><label>Insolation Flux</label><input type="number" step="any" id="koi_insol" value="120" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Signal-to-Noise Ratio</label><input type="number" step="any" id="koi_model_snr" value="25" required></div>
+          <div class="field"><label>Stellar Temp (K)</label><input type="number" step="any" id="koi_steff" value="5700" required></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>Stellar Surface Gravity</label><input type="number" step="any" id="koi_slogg" value="4.4" required></div>
+          <div class="field"><label>Stellar Radius (Solar radii)</label><input type="number" step="any" id="koi_srad" value="1.0" required></div>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%; margin-top:8px;">Run Analysis</button>
+        <div id="statusMsg"></div>
+      </form>
+    </div>
+
+    <div>
+      <div id="resultPanel">
+        <div class="glow"></div>
+        <span class="badge" id="classBadge" style="position:relative;">CONFIRMED</span>
+        <h4 id="funLabel">Standard Signal</h4>
+        <div class="sub" id="scoreSub">Priority score —</div>
+        <div class="metric-row"><span>Predicted Class</span><span id="mClass">—</span></div>
+        <div class="metric-row"><span>Confidence</span><span id="mConfidence">—</span></div>
+        <div class="metric-row"><span>Anomaly Flagged</span><span id="mAnomaly">—</span></div>
+        <div class="metric-row"><span>Priority Score</span><span id="mPriority">—</span></div>
+        <div class="metric-row"><span>Habitability Score</span><span id="mHabitability">—</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>StellarScan — a triage tool for exoplanet candidates, built on real NASA Kepler data.</footer>
+
+<script src="js/starfield.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
